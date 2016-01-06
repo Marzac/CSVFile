@@ -1,4 +1,4 @@
-/**
+/*
 	Basic CSV file reader / writer class
 	Version 0.1, 06/01/2016
 	-> Crossplatform / standard ASCII support
@@ -36,11 +36,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*****************************************************************************/
+    /* Doxywizard specific */
+    /**
+    * \mainpage CSVFile
+    * \section intro_sec Basic CSV file reader / writer class
+    * <b>Version 0.1 - 06/01/2016</b>
+    *
+    *
+    * Copyright (c) 2016 Fr&eacute;d&eacute;ric Meslin <br>
+    * Email: fredericmeslin@hotmail.com <br>
+    * Website: www.fredslab.net <br>
+    * Twitter: \@marzacdev <br>
+    */
+
+/*****************************************************************************/
+/**
+ * \enum CSV_ERRORS
+ * \brief Potential returned errors 
+ */
 typedef enum {
-	CSV_NOERROR = 0,
-	CSV_FILEERROR,
-	CSV_MEMORYERROR,
-	CSV_EOF,
+	CSV_NOERROR = 0,	/** No error occured */
+	CSV_BADFILENAME,	/** No filename was set */
+	CSV_FILEERROR,		/** File could not be either read or written */
+	CSV_MEMORYERROR,	/** Memory could not be allocated */
+	CSV_EOF,			/** File is empty or too short */
 }CSV_ERRORS;
 
 class CSVFile

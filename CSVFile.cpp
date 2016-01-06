@@ -1,4 +1,4 @@
-/**
+/*
 	Basic CSV file reader / writer class
 	Version 0.1, 06/01/2016
 	-> Crossplatform / standard ASCII support
@@ -251,6 +251,7 @@ CSV_ERRORS CSVFile::read(bool keepInMem)
 CSV_ERRORS CSVFile::write()
 {
 // Open the CSV file
+	if (!path) return CSV_BADFILENAME;
 	file = fopen(path, "wb");
 	if (!file) return CSV_FILEERROR;
 	clearerr(file);
@@ -345,6 +346,7 @@ CSV_ERRORS CSVFile::load()
 {
 // Open the CSV file
 	if (ramFile) return CSV_NOERROR;
+	if (!path) return CSV_BADFILENAME;
 	file = fopen(path, "rb");
 	if (!file) return CSV_FILEERROR;
 
@@ -385,6 +387,7 @@ void CSVFile::unload()
 void CSVFile::setFilename(const char * filename)
 {
 	if (path) free(path);
+	path = NULL;
 	if (filename) path = strdup(filename);
 }
 

@@ -1,4 +1,4 @@
-/**
+/*
 	Basic CSV file reader / writer class
 	Version 0.1, 06/01/2016
 	-> Crossplatform / standard ASCII support
