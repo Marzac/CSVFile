@@ -1,15 +1,15 @@
 /**
 	Basic CSV file reader / writer class
 	Version 0.1, 06/01/2016
-    -> Crossplatform / standard ASCII support
-    -> CSVFile.cpp
-	
+	-> Crossplatform / standard ASCII support
+	-> CSVFile.cpp
+
 	The MIT License (MIT)
 
-    Copyright (c) 2016 Frédéric Meslin
-    Email: fredericmeslin@hotmail.com
-    Website: www.fredslab.net
-    Twitter: @marzacdev
+	Copyright (c) 2016 Frédéric Meslin
+	Email: fredericmeslin@hotmail.com
+	Website: www.fredslab.net
+	Twitter: @marzacdev
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
  */
- 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -65,7 +65,7 @@ CSVFile::CSVFile(int noRows, int noColumns, int noComments) :
 	setEOL("\r\n");
 }
 
-CSVFile::~CSVFile() 
+CSVFile::~CSVFile()
 {
 // Close file
 	unload();
@@ -74,7 +74,7 @@ CSVFile::~CSVFile()
 
 // Clean-up content
 	freeContent();
-	for (int r = 0; r < noAllocatedRows; r++) 
+	for (int r = 0; r < noAllocatedRows; r++)
 		if (rows[r]) free(rows[r]);
 	if (rows) free(rows);
 }
@@ -103,7 +103,7 @@ CSV_ERRORS CSVFile::reallocate(int noRows, int noColumns, int noComments)
 		}
 	}
 	this->noRows = noRows;
-	
+
 // Allocate columns
 	if (noColumns > noAllocatedColumns) {
 	// Allocate more memory
@@ -156,7 +156,7 @@ void CSVFile::freeContent()
 			if (p) {free(p); rows[r][c] = NULL;}
 		}
 	}
-// Free comments	
+// Free comments
 	for (int c = 0; c < noAllocatedComments; c++) {
 		char * p = comments[c];
 		if (p) {free(p); comments[c] = NULL;}
@@ -192,10 +192,10 @@ CSV_ERRORS CSVFile::read(bool keepInMem)
 // Allocate parsing buffers
 	if (!countRows || !countLineChars) return CSV_NOERROR;
 	char commentBuffer[8 + countLineChars];
-	char cellBuffer[8 + countLineChars];	
+	char cellBuffer[8 + countLineChars];
 	int commentLength = 0;
 	int cellLength = 0;
-	
+
 // Initialise the parser
 	int row = 0;
 	int column = 0;
@@ -242,7 +242,7 @@ CSV_ERRORS CSVFile::read(bool keepInMem)
 			}
 		}
 	}
-	
+
 // Unload the file
 	if (!keepInMem) unload();
 	return CSV_NOERROR;
@@ -277,8 +277,8 @@ CSV_ERRORS CSVFile::write()
 		file = NULL;
 		return CSV_FILEERROR;
 	}
-	
-// Close the CSV file	
+
+// Close the CSV file
 	fclose(file);
 	file = NULL;
 	return CSV_NOERROR;
@@ -290,7 +290,7 @@ CSV_ERRORS CSVFile::assess(int & countRows, int & countColumns, int & countComme
 // Load the file
 	load();
 
-// Count all elements	
+// Count all elements
 	int cRow = 0;
 	int cColumn = 0;
 	int cColumnLocal = 0;
@@ -306,13 +306,13 @@ CSV_ERRORS CSVFile::assess(int & countRows, int & countColumns, int & countComme
 			if (!emptyLine) cRow ++;
 			if (++ cColumnLocal > cColumn)
 				cColumn = cColumnLocal;
-				
+
 		// Count line length
 			lastLine = k - lastLine;
-			if (lastLine > lineMaxLen) 
+			if (lastLine > lineMaxLen)
 				lineMaxLen = lastLine;
 			lastLine = k;
-			
+
 		// Prepare next line
 			cColumnLocal = 0;
 			commentOnLine = false;
@@ -330,7 +330,7 @@ CSV_ERRORS CSVFile::assess(int & countRows, int & countColumns, int & countComme
 			}
 		}
 	}
-	
+
 // Unload the file
 	if (!keepInMem) unload();
 	countRows = cRow;
@@ -347,18 +347,18 @@ CSV_ERRORS CSVFile::load()
 	if (ramFile) return CSV_NOERROR;
 	file = fopen(path, "rb");
 	if (!file) return CSV_FILEERROR;
-	
+
 // Allocate file buffer
 	fseek(file, 0, SEEK_END);
 	long long len = ftell(file);
 	ramFile = (char *) malloc(len);
 	if (!ramFile) return CSV_MEMORYERROR;
 	ramFileLen = len;
-	
+
 // Load complete file
 	fseek(file, 0, SEEK_SET);
 	fread(ramFile, ramFileLen, 1, file);
-	
+
 // Detect any error
 	if (ferror(file)) {
 		unload();
@@ -366,8 +366,8 @@ CSV_ERRORS CSVFile::load()
 		file = NULL;
 		return CSV_FILEERROR;
 	}
-	
-// Close the CSV file	
+
+// Close the CSV file
 	fclose(file);
 	file = NULL;
 	return CSV_NOERROR;
@@ -395,7 +395,7 @@ void CSVFile::setEOL(const char * eol)
 	eolLen = strlen(this->eol);
 }
 
-/*****************************************************************************/	
+/*****************************************************************************/
 void CSVFile::setComment(int index, const char * comment)
 {
 	if (index < 0 || index >= noComments) return;
@@ -428,4 +428,4 @@ void CSVFile::setCell(int row, int column, const char * data)
 	secureString(ns);
 	rows[row][column] = ns;
 }
-	
+

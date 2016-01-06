@@ -1,15 +1,15 @@
 /**
 	Basic CSV file reader / writer class
 	Version 0.1, 06/01/2016
-    -> Crossplatform / standard ASCII support
-    -> main.cpp
-	
+	-> Crossplatform / standard ASCII support
+	-> main.cpp
+
 	The MIT License (MIT)
 
-    Copyright (c) 2016 Frédéric Meslin
-    Email: fredericmeslin@hotmail.com
-    Website: www.fredslab.net
-    Twitter: @marzacdev
+	Copyright (c) 2016 Frédéric Meslin
+	Email: fredericmeslin@hotmail.com
+	Website: www.fredslab.net
+	Twitter: @marzacdev
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
  */
- 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -45,7 +45,7 @@ int main(int argc, char * argv[])
 	delete csv2;
 	CSVFile * csv3 = new CSVFile(32, 16, 8);
 	delete csv3;
-	
+
 	printf("Testing write\n");
 	CSVFile * csv4 = new CSVFile(8, 8, 4);
 	csv4->setComment(0, "First comment");
@@ -61,8 +61,8 @@ int main(int argc, char * argv[])
 	printf("Problem!\n");
 	csv4->write();
 	delete csv4;
-	
-	printf("Testing assess\n");	
+
+	printf("Testing assess\n");
 	CSVFile * csv5 = new CSVFile("csv4.csv");
 	int countRows;
 	int countColumns;
@@ -70,10 +70,10 @@ int main(int argc, char * argv[])
 	int countLineChars;
 	csv5->assess(countRows, countColumns, countComments, countLineChars);
 	printf("Rows %i, Columns %i, Comments %i, Chars %i\n", countRows, countColumns, countComments, countLineChars);
-	
-	printf("Testing read\n");	
+
+	printf("Testing read\n");
 	csv5->read();
-	
+
 	printf("Testing re-write\n");
 	csv5->setFilename("csv5.csv");
 	csv5->write();
